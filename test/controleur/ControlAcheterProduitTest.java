@@ -26,7 +26,7 @@ class ControlAcheterProduitTest {
 		controlVerifierIdentite = new ControlVerifierIdentite(village);
 		vendeur = new Gaulois("Bonemine", 3);
 		village.ajouterHabitant(vendeur);
-		village.installerVendeur(vendeur, "fleurs", 10);
+		village.installerVendeur(vendeur, "fleurs", 3);
 		acheteur = new Gaulois("Bob", 2);
 		village.ajouterHabitant(acheteur);
 	}
@@ -39,7 +39,9 @@ class ControlAcheterProduitTest {
 	@Test
 	void testAcheterProduit() {
 		ControlAcheterProduit controlAcheterProduit = new ControlAcheterProduit(controlVerifierIdentite,controlTrouverEtalVendeur,village);
-		assertNotNull(controlAcheterProduit.acheterProduit("Bonemine", 2));
+		assertEquals(2,controlAcheterProduit.acheterProduit("Bonemine", 2));
+		assertEquals(1,controlAcheterProduit.acheterProduit("Bonemine", 4));
+		assertEquals(0,controlAcheterProduit.acheterProduit("Bonemine", 2));
 	}
 
 	@Test
@@ -51,7 +53,12 @@ class ControlAcheterProduitTest {
 
 	@Test
 	void testRechercherVendeursProduit() {
-		fail("Not yet implemented");
+		ControlAcheterProduit controlAcheterProduit = new ControlAcheterProduit(controlVerifierIdentite,controlTrouverEtalVendeur,village);
+		String[] nomVendeurs = {"Bonemine"};
+		assertArrayEquals(nomVendeurs,controlAcheterProduit.rechercherVendeursProduit("fleurs"));
+		village.partirVendeur(vendeur);
+		assertNull(controlAcheterProduit.rechercherVendeursProduit("fleurs"));
+		
 	}
 
 }
